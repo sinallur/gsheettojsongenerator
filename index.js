@@ -76,12 +76,60 @@ function getNewToken(oAuth2Client, callback) {
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
 function generateData(auth) {
-  var sheetsList = [{ name: 'Item__cs.json', range: 'Items__cs!A14:H54' }, { name: 'Field_Asset__cs.json', range: 'Field_Assets__cs!A1:E88' }];
+  var sheetsList = [
+                      { name: 'Item__cs.json',
+                        range: 'Items__cs!A1:J41' 
+                      }, 
+                      { 
+                        name: 'Field_Asset__cs.json', 
+                        range: 'Field_Assets_cs!A1:J88' 
+                      },
+                      { 
+                        name: 'Resource__cs.json', 
+                        range: 'Resources_cs!A1:L41' 
+                      },
+                      { 
+                        name: 'Crew_Resource__cs.json', 
+                        range: 'Crew_Resource__cs!A1:G28' 
+                      },
+                      { 
+                        name: 'Site__cs_wm.json', 
+                        range: 'Site_cs_wm!A1:N9' 
+                      },
+                      { 
+                        name: 'Territory_cs.json', 
+                        range: 'Territory_cs!A1:D9' 
+                      },
+                      { 
+                        name: 'Calendar__cs.json', 
+                        range: 'Calendar_cs!A1:F2' 
+                      },
+                      { 
+                        name: 'Calendar_Rule__cs.json', 
+                        range: 'Calendar_cs!A1:F2' 
+                      },
+                      { 
+                        name: 'Job_Task_Template__cs.json', 
+                        range: 'Job_Task_Template_cs!A1:I22' 
+                      },
+                      { 
+                        name: 'Skill__cs.json', 
+                        range: 'Skill_cs!A1:D12' 
+                      },
+                      { 
+                        name: 'Job_Template__cs.json', 
+                        range: 'Job_Template_cs!A1:I9' 
+                      },
+                      { 
+                        name: 'Checklist_Template_cs.json', 
+                        range: 'Checklist_Template_cs!A1:R55' 
+                      }
+                    ];
   const sheets = google.sheets({version: 'v4', auth});
   sheetsList.map((sheetItem) => {
     sheets.spreadsheets.values.get({
         // spreadsheetId: '1RgE5yKPyFCsgfElQin3lDPD8BQdnAEgbYqD9bC3uDRU', // Trail
-        spreadsheetId: '1KgvoUgn3i4Eg-mhe-3sTlx48CtObzHU1HGyyxydt7C8', //Actual
+        spreadsheetId: '1dVa8MVYhQX4mFm5JKqFGb8HZen1qk_lGdoTQWqCwSE0', //Actual
         range: sheetItem.range,
       }, (err, res) => {
         if (err) return console.log('The API returned an error: ' + err);
@@ -93,6 +141,36 @@ function generateData(auth) {
               break;
             case sheetsList[1].range: //FieldAssets
               generate_FieldAssets_file(sheetItem.name, rows);
+              break;
+            case sheetsList[2].range: //Resources
+              generate_Resources_file(sheetItem.name, rows);
+              break;
+            case sheetsList[3].range: //Crew_Resource__cs
+              generate_CrewResource_file(sheetItem.name, rows);
+              break;
+            case sheetsList[4].range: //Site_cs_wm
+              generate_Site_CS_WM_file(sheetItem.name, rows);
+              break;
+            case sheetsList[5].range: //Territory_cs
+              generate_Territory_cs_file(sheetItem.name, rows);
+              break;
+            case sheetsList[6].range: //Calendar__cs
+              generate_Calendar__cs_file(sheetItem.name, rows);
+              break;
+            case sheetsList[7].range: //Calendar_Rule_cs
+              generate_Calendar_Rule_cs_file(sheetItem.name, rows);
+              break;            
+            case sheetsList[8].range: //Job_Task_Template_cs
+              generate_Job_Task_Template_cs_file(sheetItem.name, rows);
+              break;
+            case sheetsList[9].range: //Skill__cs
+              generate_Skill__cs_file(sheetItem.name, rows);
+              break;
+            case sheetsList[10].range: //Job_Template_cs
+              generate_Job_Template_cs_file(sheetItem.name, rows);
+              break;
+            case sheetsList[11].range: //Checklist_Template_cs
+              generate_Checklist_Template_cs_file(sheetItem.name, rows);
               break;
             default:
               console.log('No data found.');
@@ -110,15 +188,22 @@ function generate_ItemsCS_file(filename, data) {
     try {
       data.map((item, index) => {
         if(index != 0) {
-            tempObject.attributes['type'] = 'strk__Item__c';
-            tempObject.attributes['referenceId'] = '';
-            tempObject['Name'] = item[0];
-            tempObject['strk__Item_Number__c'] = item[1];
-            tempObject['strk__Type__c'] = item[3];
-            tempObject['strk__Primary_UoM__c'] = item[4];
-            tempObject['strk__Tracking_Method__c'] = item[2];
-            tempObject['strk__Usage_Type__c'] = item[5];
-            tempObject['strk__Available_For_Receipt__c'] = item[6];
+            tempObject.attributes['type'] = item[1];
+            tempObject.attributes['referenceId'] = item[0];
+            tempObject['strk__Item_Number__c'] = item[3];
+            tempObject['Name'] = item[2];
+            tempObject['strk__Primary_UoM__c'] = item[6];
+            tempObject['strk__Type__c'] = item[5];
+            tempObject['strk__Available_For_Receipt__c'] = item[9];
+            tempObject['strk__Usage_Type__c'] = item[8];
+            tempObject['strk__Tracking_Method__c'] = item[7];
+            tempObject['strk_Manufacturer_c'] = item[4];
+            tempObject['strk_Asset_Name_Prefix_c'] = item[10];
+            tempObject['strk_Asset_Name_Suffix_c'] = item[11];
+            tempObject['strk_Description_c'] = item[12];
+            item[13] ? tempObject['strk_Default_Container_Quantity_c'] = item[13] : '';
+            tempObject['strk_Standard_Cost_c'] = item[14];
+            tempObject['strk_Category_c'] = item[15];
             items_cs_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
@@ -137,13 +222,16 @@ function generate_FieldAssets_file(filename, data) {
     try {
       data.map((item, index) => {
           if(index != 0) {
-              tempObject.attributes['type'] = 'strk__Field_Asset__c';
-              tempObject.attributes['referenceId'] = '';
-              tempObject['strk__Status__c'] = item[0];
-              tempObject['strk__Item__c'] = item[1];
+              tempObject.attributes['type'] = item[1];
+              tempObject.attributes['referenceId'] = item[0];
+              tempObject['strk__Status__c'] = item[9];
+              tempObject['strk__Item__c'] = item[4];
               tempObject['strk__Site__c'] = item[2];
-              tempObject['strk__Serial__c'] = item[3] ? item[3] : '';
-              tempObject['strk__Parent__c'] = item[4] ? item[4] : '';
+              item[5] ? tempObject['strk__Serial__c'] = item[5] : '';
+              item[6] ? tempObject['strk__Parent__c'] =  item[6] : '';
+              item[3] ? tempObject['Name'] =  item[3] : '';
+              item[7] ? tempObject['strk_Quantity_c'] =  item[7] : '';
+              item[8] ? tempObject['strk_Top_Level_Parent_c'] =  item[8] : '';
               field_assets_data.records.push(tempObject);
               tempObject = { attributes: {}}
           }
@@ -154,6 +242,291 @@ function generate_FieldAssets_file(filename, data) {
     } catch {
       console.error(filename, 'failure');
     }
+}
+
+function generate_Resources_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[2] ? tempObject['Name'] = item[2] : '';
+            item[4] ? tempObject['strk__Active__c'] = item[4] : '';
+            item[8] ? tempObject['strk__Calendar__c'] = item[8] : '';
+            item[6] ? tempObject['strk__Territory__c'] = item[6] : '';
+            item[3] ? tempObject['strk__Type__c'] =  item[3] : '';
+            item[5] ? tempObject['strk__Site__c'] =  item[5] : '';
+            item[9] ? tempObject['strk__Enable_Live_Location__c'] =  item[9] : '';
+            item[10] ? tempObject['strk__Enable_Resource_For__c'] =  item[10] : '';
+            item[7] ? tempObject['strk_Resource_Skill_c'] =  item[7] : '';
+            item[11] ? tempObject['strk_Field_Asset_c'] =  item[11] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_CrewResource_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[2] ? tempObject['strk__Crew__c'] = item[2] : '';
+            item[3] ? tempObject['strk__Resource__c'] = item[3] : '';
+            item[4] ? tempObject['strk__Role__c'] = item[4] : '';
+            item[5] ? tempObject['strk_Site_c'] = item[5] : '';
+            item[6] ? tempObject['strk_Resource_Skill_c'] = item[6] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Site_CS_WM_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[12] ? tempObject['strk__Zip_Code__c'] = item[12] : '';
+            item[4] ? tempObject['strk__Street_Address__c'] = item[4] : '';
+            item[10] ? tempObject['strk__State__c'] = item[10] : '';
+            item[8] ? tempObject['strk__Site_Status__c'] = item[8] : '';
+            item[9] ? tempObject['strk__Site_Type__c'] = item[9] : '';
+            item[13] ? tempObject['strk__Territory__c'] = item[13] : '';
+            item[2] ? tempObject['Name'] = item[2] : '';
+            item[6] ? tempObject['strk__Long__c'] = item[6] : '';
+            item[7] ? tempObject['strk_Site_Description_c'] = item[7] : '';
+            item[11] ? tempObject['Street Address'] = item[11] : '';
+            item[5] ? tempObject['strk__Lat__c'] = item[5] : '';
+            item[3] ? tempObject['strk__City__c'] = item[3] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Territory_cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[2] ? tempObject['Name'] = item[2] : '';
+            item[3] ? tempObject['strk__Type__c'] = item[3] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Calendar__cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[2] ? tempObject['strk__Description__c'] = item[2] : '';
+            item[4] ? tempObject['strk__Treat_Unspecified_Time_As__c'] = item[4] : '';
+            item[3] ? tempObject['Name'] = item[3] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Calendar_Rule_cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[2] ? tempObject['strk__Calendar__c'] = item[2] : '';
+            item[3] ? tempObject['strk__Days__c'] = item[3] : '';
+            item[4] ? tempObject['Name'] = item[4] : '';
+            item[5] ? tempObject['strk__Description__c'] = item[5] : '';
+            item[6] ? tempObject['strk__Start_Time__c'] = item[6] : '';
+            item[7] ? tempObject['Nastrk__End_Time__cme'] = item[7] : '';
+            item[8] ? tempObject['strk__Type__c'] = item[8] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Skill__cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[3] ? tempObject['Name'] = item[3] : '';
+            item[2] ? tempObject['strk__Type__c'] = item[2] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Job_Task_Template_cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[5] ? tempObject['strk__Description__c'] = item[5] : '';
+            item[3] ? tempObject['strk__Job_Template__c'] = item[3] : '';
+            item[7] ? tempObject['strk__Required__c'] = item[7] : '';
+            item[2] ? tempObject['Name'] = item[2] : '';
+            item[6] ? tempObject['strk__Estimated_Duration__c'] = item[6] : '';
+            item[4] ? tempObject['strk__Order__c'] = item[4] : '';
+            item[8] ? tempObject['strk_Checklist_Template_c'] = item[8] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Job_Template_cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject = { attributes: {}};
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            item[2] ? tempObject['Name'] = item[2] : '';
+            item[3] ? tempObject['strk_Job_Type_c'] = item[3] : '';
+            item[4] ? tempObject['strk_Estimated_Duration_c'] = item[4] : '';
+            item[5] ? tempObject['strk_Duration_Unit_c'] = item[5] : '';
+            item[6] ? tempObject['strk_Job_Item_Templates_c'] = item[6] : '';
+            item[7] ? tempObject['strk_Job_Skill_Templates_c'] = item[7] : '';
+            item[8] ? tempObject['strk_Active_c'] = item[8] : '';
+            field_assets_data.records.push(tempObject);
+            tempObject = { attributes: {}}
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
+}
+
+function generate_Checklist_Template_cs_file(filename, data) {
+  var field_assets_data = { records : []};
+  var tempObject;
+  var checkListObject;
+  try {
+    data.map((item, index) => {
+        if(index != 0) {
+            tempObject = { attributes: {}, Name: '' , strk__Checklist_Item_Templates__r : {records : []}};
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
+            if(item[2] != null && item[2] !== '') { // If Name is not null
+              var doesRecordExists = false;
+              checkListObject = {};
+              tempObject['Name'] = item[2];
+              checkListObject['attributes'] = { type: item[3] } ;
+              checkListObject['attributes'] = { referenceId: item[4] };
+              item[5] ? checkListObject['strk__Description__c'] = item[5] : '';
+              item[6] ? checkListObject['strk__Order__c'] = item[6] : '';
+              item[7] ? checkListObject['strk_Response_Type__c'] = item[7] : '';
+              item[8] ? checkListObject['strk_Section__c'] = item[8] : '';
+              item[9] ? checkListObject['strk_Subsection__c'] = item[9] : '';
+              item[10] ? checkListObject['strk_Picklist_Values__c'] = item[10] : '';
+              item[11] ? checkListObject['strk_Photo_Required__c'] = item[11] : '';
+              item[12] ? checkListObject['strk_Read_Only__c'] = item[12] : '';
+              item[13] ? checkListObject['strk_Optional__c'] = item[13] : '';
+              item[14] ? checkListObject['strk_Geofence_Photo_Upload__c'] = item[14] : '';
+              item[15] ? checkListObject['strk_Comment_Required__c'] = item[15] : '';
+              item[16] ? checkListObject['strk_Render_Logic__c'] = item[16] : '';
+              item[17] ? checkListObject['strk_Field_Reference__c'] = item[17] : '';
+              field_assets_data.records.map((checkListItem, index) => {
+                if(checkListItem.Name == item[2]) { // If Checklist exist add a record 
+                  doesRecordExists = true;
+                  field_assets_data.records[index].strk__Checklist_Item_Templates__r.records.push(checkListObject);
+                }
+              });
+              if(!doesRecordExists) { // If Checklist doesn't exist create new one and add record
+                tempObject.strk__Checklist_Item_Templates__r.records.push(checkListObject);
+                field_assets_data.records.push(tempObject);
+              }
+            }
+        }
+    });
+    var data = JSON.stringify(field_assets_data);
+    fs.writeFileSync( fileLocation + filename, data);
+    console.log(filename, ' is generated!');
+  } catch {
+    console.error(filename, 'failure');
+  }
 }
 
 function getArgs () {
