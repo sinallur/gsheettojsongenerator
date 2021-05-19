@@ -491,10 +491,10 @@ function generate_Checklist_Template_cs_file(filename, data) {
             tempObject.attributes['referenceId'] = item[1];
             if(item[2] != null && item[2] !== '') { // If Name is not null
               var doesRecordExists = false;
-              checkListObject = {};
+              checkListObject = {attributes: { type: '', referenceId: ''}};
               tempObject['Name'] = item[2];
-              checkListObject['attributes'] = { type: item[3] } ;
-              checkListObject['attributes'] = { referenceId: item[4] };
+              checkListObject.attributes.type = item[3];
+              checkListObject.attributes.referenceId =  item[4];
               item[5] ? checkListObject['strk__Description__c'] = item[5] : '';
               item[6] ? checkListObject['strk__Order__c'] = item[6] : '';
               item[7] ? checkListObject['strk_Response_Type__c'] = item[7] : '';
