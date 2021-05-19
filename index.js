@@ -122,7 +122,7 @@ function generateData(auth) {
                       },
                       { 
                         name: 'Checklist_Template_cs.json', 
-                        range: 'Checklist_Template_cs!A1:R55' 
+                        range: 'Checklist_Template_cs!A1:R1052' 
                       }
                     ];
   const sheets = google.sheets({version: 'v4', auth});
@@ -503,7 +503,7 @@ function generate_Checklist_Template_cs_file(filename, data) {
               item[11] ? checkListObject['strk__Photo_Required__c'] = item[11] : '';
               item[12] ? checkListObject['strk__Read_Only__c'] = item[12] : '';
               item[13] ? checkListObject['strk__Optional__c'] = item[13] == "TRUE" : '';
-              item[14] ? checkListObject['strk__Geofence_Photo_Upload__c'] = item[14] : '';
+              item[14] ? checkListObject['strk__Geofence_Photo_Upload__c'] = item[14] == "TRUE" : '';
               item[15] ? checkListObject['strk__Comment_Required__c'] = item[15] : '';
               item[16] ? checkListObject['strk__Render_Logic__c'] = item[16] : '';
               item[17] ? checkListObject['strk__Field_Reference__c'] = item[17] : '';
