@@ -197,13 +197,13 @@ function generate_ItemsCS_file(filename, data) {
             tempObject['strk__Available_For_Receipt__c'] = item[9];
             tempObject['strk__Usage_Type__c'] = item[8];
             tempObject['strk__Tracking_Method__c'] = item[7];
-            tempObject['strk_Manufacturer_c'] = item[4];
-            tempObject['strk_Asset_Name_Prefix_c'] = item[10];
-            tempObject['strk_Asset_Name_Suffix_c'] = item[11];
-            tempObject['strk_Description_c'] = item[12];
-            item[13] ? tempObject['strk_Default_Container_Quantity_c'] = item[13] : '';
-            tempObject['strk_Standard_Cost_c'] = item[14];
-            tempObject['strk_Category_c'] = item[15];
+            tempObject['strk__Manufacturer__c'] = item[4];
+            tempObject['strk__Asset_Name_Prefix__c'] = item[10];
+            tempObject['strk__Asset_Name_Suffix__c'] = item[11];
+            tempObject['strk__Description__c'] = item[12];
+            item[13] ? tempObject['strk__Default_Container_Quantity__c'] = item[13] : '';
+            tempObject['strk__Standard_Cost__c'] = item[14];
+            tempObject['strk__Category__c'] = item[15];
             items_cs_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
@@ -230,8 +230,8 @@ function generate_FieldAssets_file(filename, data) {
               item[5] ? tempObject['strk__Serial__c'] = item[5] : '';
               item[6] ? tempObject['strk__Parent__c'] =  item[6] : '';
               item[3] ? tempObject['Name'] =  item[3] : '';
-              item[7] ? tempObject['strk_Quantity_c'] =  item[7] : '';
-              item[8] ? tempObject['strk_Top_Level_Parent_c'] =  item[8] : '';
+              item[7] ? tempObject['strk__Quantity__c'] =  item[7] : '';
+              item[8] ? tempObject['strk__Top_Level_Parent__c'] =  item[8] : '';
               field_assets_data.records.push(tempObject);
               tempObject = { attributes: {}}
           }
@@ -253,15 +253,15 @@ function generate_Resources_file(filename, data) {
             tempObject.attributes['type'] = item[0];
             tempObject.attributes['referenceId'] = item[1];
             item[2] ? tempObject['Name'] = item[2] : '';
-            item[4] ? tempObject['strk__Active__c'] = item[4] : '';
+            item[4] ? tempObject['strk__Active__c'] = item[4] == "TRUE" : '';
             item[8] ? tempObject['strk__Calendar__c'] = item[8] : '';
             item[6] ? tempObject['strk__Territory__c'] = item[6] : '';
             item[3] ? tempObject['strk__Type__c'] =  item[3] : '';
             item[5] ? tempObject['strk__Site__c'] =  item[5] : '';
             item[9] ? tempObject['strk__Enable_Live_Location__c'] =  item[9] : '';
             item[10] ? tempObject['strk__Enable_Resource_For__c'] =  item[10] : '';
-            item[7] ? tempObject['strk_Resource_Skill_c'] =  item[7] : '';
-            item[11] ? tempObject['strk_Field_Asset_c'] =  item[11] : '';
+            item[7] ? tempObject['strk__Resource_Skill__c'] =  item[7] : '';
+            item[11] ? tempObject['strk__Field_Asset__c'] =  item[11] : '';
             field_assets_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
@@ -285,8 +285,8 @@ function generate_CrewResource_file(filename, data) {
             item[2] ? tempObject['strk__Crew__c'] = item[2] : '';
             item[3] ? tempObject['strk__Resource__c'] = item[3] : '';
             item[4] ? tempObject['strk__Role__c'] = item[4] : '';
-            item[5] ? tempObject['strk_Site_c'] = item[5] : '';
-            item[6] ? tempObject['strk_Resource_Skill_c'] = item[6] : '';
+            item[5] ? tempObject['strk__Site__c'] = item[5] : '';
+            item[6] ? tempObject['strk__Resource_Skill__c'] = item[6] : '';
             field_assets_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
@@ -307,16 +307,15 @@ function generate_Site_CS_WM_file(filename, data) {
         if(index != 0) {
             tempObject.attributes['type'] = item[0];
             tempObject.attributes['referenceId'] = item[1];
-            item[12] ? tempObject['strk__Zip_Code__c'] = item[12] : '';
+            item[12] ? tempObject['strk__Zip_Code__c'] = item[11] : '';
             item[4] ? tempObject['strk__Street_Address__c'] = item[4] : '';
             item[10] ? tempObject['strk__State__c'] = item[10] : '';
             item[8] ? tempObject['strk__Site_Status__c'] = item[8] : '';
             item[9] ? tempObject['strk__Site_Type__c'] = item[9] : '';
-            item[13] ? tempObject['strk__Territory__c'] = item[13] : '';
+            item[13] ? tempObject['strk__Territory__c'] = item[12] : '';
             item[2] ? tempObject['Name'] = item[2] : '';
             item[6] ? tempObject['strk__Long__c'] = item[6] : '';
-            item[7] ? tempObject['strk_Site_Description_c'] = item[7] : '';
-            item[11] ? tempObject['Street Address'] = item[11] : '';
+            item[7] ? tempObject['strk__Site_Description__c'] = item[7] : '';
             item[5] ? tempObject['strk__Lat__c'] = item[5] : '';
             item[3] ? tempObject['strk__City__c'] = item[3] : '';
             field_assets_data.records.push(tempObject);
@@ -435,11 +434,11 @@ function generate_Job_Task_Template_cs_file(filename, data) {
             tempObject.attributes['referenceId'] = item[1];
             item[5] ? tempObject['strk__Description__c'] = item[5] : '';
             item[3] ? tempObject['strk__Job_Template__c'] = item[3] : '';
-            item[7] ? tempObject['strk__Required__c'] = item[7] : '';
+            item[7] ? tempObject['strk__Required__c'] = item[7] == "TRUE" : '';
             item[2] ? tempObject['Name'] = item[2] : '';
             item[6] ? tempObject['strk__Estimated_Duration__c'] = item[6] : '';
             item[4] ? tempObject['strk__Order__c'] = item[4] : '';
-            item[8] ? tempObject['strk_Checklist_Template_c'] = item[8] : '';
+            item[8] ? tempObject['strk__Checklist_Template__c'] = item[8] : '';
             field_assets_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
@@ -461,12 +460,12 @@ function generate_Job_Template_cs_file(filename, data) {
             tempObject.attributes['type'] = item[0];
             tempObject.attributes['referenceId'] = item[1];
             item[2] ? tempObject['Name'] = item[2] : '';
-            item[3] ? tempObject['strk_Job_Type_c'] = item[3] : '';
-            item[4] ? tempObject['strk_Estimated_Duration_c'] = item[4] : '';
-            item[5] ? tempObject['strk_Duration_Unit_c'] = item[5] : '';
-            item[6] ? tempObject['strk_Job_Item_Templates_c'] = item[6] : '';
-            item[7] ? tempObject['strk_Job_Skill_Templates_c'] = item[7] : '';
-            item[8] ? tempObject['strk_Active_c'] = item[8] : '';
+            item[3] ? tempObject['strk__Job_Type__c'] = item[3] : '';
+            item[4] ? tempObject['strk__Estimated_Duration__c'] = item[4] : '';
+            item[5] ? tempObject['strk__Duration_Unit__c'] = item[5] : '';
+            item[6] ? tempObject['strk__Job_Item_Templates__c'] = item[6] : '';
+            item[7] ? tempObject['strk__Job_Skill_Templates__c'] = item[7] : '';
+            item[8] ? tempObject['strk__Active__c'] = item[8] == "TRUE" : '';
             field_assets_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
@@ -497,17 +496,17 @@ function generate_Checklist_Template_cs_file(filename, data) {
               checkListObject.attributes.referenceId =  item[4];
               item[5] ? checkListObject['strk__Description__c'] = item[5] : '';
               item[6] ? checkListObject['strk__Order__c'] = item[6] : '';
-              item[7] ? checkListObject['strk_Response_Type__c'] = item[7] : '';
-              item[8] ? checkListObject['strk_Section__c'] = item[8] : '';
-              item[9] ? checkListObject['strk_Subsection__c'] = item[9] : '';
-              item[10] ? checkListObject['strk_Picklist_Values__c'] = item[10] : '';
-              item[11] ? checkListObject['strk_Photo_Required__c'] = item[11] : '';
-              item[12] ? checkListObject['strk_Read_Only__c'] = item[12] : '';
-              item[13] ? checkListObject['strk_Optional__c'] = item[13] : '';
-              item[14] ? checkListObject['strk_Geofence_Photo_Upload__c'] = item[14] : '';
-              item[15] ? checkListObject['strk_Comment_Required__c'] = item[15] : '';
-              item[16] ? checkListObject['strk_Render_Logic__c'] = item[16] : '';
-              item[17] ? checkListObject['strk_Field_Reference__c'] = item[17] : '';
+              item[7] ? checkListObject['strk__Response_Type__c'] = item[7] : '';
+              item[8] ? checkListObject['strk__Section__c'] = item[8] : '';
+              item[9] ? checkListObject['strk__Subsection__c'] = item[9] : '';
+              item[10] ? checkListObject['strk__Picklist_Values__c'] = item[10] : '';
+              item[11] ? checkListObject['strk__Photo_Required__c'] = item[11] : '';
+              item[12] ? checkListObject['strk__Read_Only__c'] = item[12] : '';
+              item[13] ? checkListObject['strk__Optional__c'] = item[13] == "TRUE" : '';
+              item[14] ? checkListObject['strk__Geofence_Photo_Upload__c'] = item[14] : '';
+              item[15] ? checkListObject['strk__Comment_Required__c'] = item[15] : '';
+              item[16] ? checkListObject['strk__Render_Logic__c'] = item[16] : '';
+              item[17] ? checkListObject['strk__Field_Reference__c'] = item[17] : '';
               field_assets_data.records.map((checkListItem, index) => {
                 if(checkListItem.Name == item[2]) { // If Checklist exist add a record 
                   doesRecordExists = true;
