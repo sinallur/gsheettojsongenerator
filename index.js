@@ -202,7 +202,7 @@ function generate_ItemsCS_file(filename, data) {
             tempObject['strk__Asset_Name_Suffix__c'] = item[11];
             tempObject['strk__Description__c'] = item[12];
             item[13] ? tempObject['strk__Default_Container_Quantity__c'] = item[13] : '';
-            tempObject['strk__Standard_Cost__c'] = item[14];
+            tempObject['strk__Standard_Cost__c'] = parseInt(item[14]);
             tempObject['strk__Category__c'] = item[15];
             items_cs_data.records.push(tempObject);
             tempObject = { attributes: {}}
@@ -436,8 +436,8 @@ function generate_Job_Task_Template_cs_file(filename, data) {
             item[3] ? tempObject['strk__Job_Template__c'] = item[3] : '';
             item[7] ? tempObject['strk__Required__c'] = item[7] == "TRUE" : '';
             item[2] ? tempObject['Name'] = item[2] : '';
-            item[6] ? tempObject['strk__Estimated_Duration__c'] = item[6] : '';
-            item[4] ? tempObject['strk__Order__c'] = item[4] : '';
+            item[6] ? tempObject['strk__Estimated_Duration__c'] = parseInt(item[6]) : '';
+            item[4] ? tempObject['strk__Order__c'] = parseInt(item[4]) : '';
             item[8] ? tempObject['strk__Checklist_Template__c'] = item[8] : '';
             field_assets_data.records.push(tempObject);
             tempObject = { attributes: {}}
@@ -461,7 +461,7 @@ function generate_Job_Template_cs_file(filename, data) {
             tempObject.attributes['referenceId'] = item[1];
             item[2] ? tempObject['Name'] = item[2] : '';
             item[3] ? tempObject['strk__Job_Type__c'] = item[3] : '';
-            item[4] ? tempObject['strk__Estimated_Duration__c'] = item[4] : '';
+            item[4] ? tempObject['strk__Estimated_Duration__c'] = parseInt(item[4]) : '';
             item[5] ? tempObject['strk__Duration_Unit__c'] = item[5] : '';
             item[6] ? tempObject['strk__Job_Item_Templates__c'] = item[6] : '';
             item[7] ? tempObject['strk__Job_Skill_Templates__c'] = item[7] : '';
@@ -495,7 +495,7 @@ function generate_Checklist_Template_cs_file(filename, data) {
               checkListObject.attributes.type = item[3];
               checkListObject.attributes.referenceId =  item[4];
               item[5] ? checkListObject['strk__Description__c'] = item[5] : '';
-              item[6] ? checkListObject['strk__Order__c'] = item[6] : '';
+              item[6] ? checkListObject['strk__Order__c'] = parseInt(item[6]) : '';
               item[7] ? checkListObject['strk__Response_Type__c'] = item[7] : '';
               item[8] ? checkListObject['strk__Section__c'] = item[8] : '';
               item[9] ? checkListObject['strk__Subsection__c'] = item[9] : '';
