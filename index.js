@@ -97,7 +97,7 @@ function generateData(auth) {
                         range: 'Site_cs_wm!A1:N9' 
                       },
                       { 
-                        name: 'Territory_cs.json', 
+                        name: 'Territory__cs.json', 
                         range: 'Territory_cs!A1:D9' 
                       },
                       { 
@@ -121,7 +121,7 @@ function generateData(auth) {
                         range: 'Job_Template_cs!A1:I9' 
                       },
                       { 
-                        name: 'Checklist_Template_cs.json', 
+                        name: 'Checklist_Template__cs.json', 
                         range: 'Checklist_Template_cs!A1:R1052' 
                       }
                     ];
