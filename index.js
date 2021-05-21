@@ -496,14 +496,14 @@ function generate_Checklist_Template_cs_file(filename, data) {
               checkListObject.attributes.referenceId =  item[4];
               item[5] ? checkListObject['strk__Description__c'] = item[5] : '';
               item[6] ? checkListObject['strk__Order__c'] = parseInt(item[6]) : '';
-              item[7] ? checkListObject['strk__Response_Type__c'] = item[7] : '';
+              item[7] ? checkListObject['strk__Field_Type__c'] = item[7] : '';
               item[8] ? checkListObject['strk__Section__c'] = item[8] : '';
               item[9] ? checkListObject['strk__Subsection__c'] = item[9] : '';
               item[10] ? checkListObject['strk__Picklist_Values__c'] = item[10] : '';
               item[11] ? checkListObject['strk__Photo_Required__c'] = item[11] : '';
               item[12] ? checkListObject['strk__Read_Only__c'] = item[12] : '';
               item[13] ? checkListObject['strk__Optional__c'] = item[13] == "TRUE" : '';
-              item[14] ? checkListObject['strk__Geofence_Photo_Upload__c'] = item[14] == "TRUE" : '';
+              item[14] ? checkListObject['strk__Geofencing_Required__c'] = item[14] == "TRUE" : '';
               item[15] ? checkListObject['strk__Comment_Required__c'] = item[15] : '';
               item[16] ? checkListObject['strk__Render_Logic__c'] = item[16] : '';
               item[17] ? checkListObject['strk__Field_Reference__c'] = item[17] : '';
