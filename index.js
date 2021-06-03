@@ -122,7 +122,7 @@ function generateData(auth) {
                       },
                       { 
                         name: 'Checklist_Template__cs.json', 
-                        range: 'Checklist_Template_cs!A1:R1052' 
+                        range: 'Checklist_Template_cs!A1:Q197' 
                       }
                     ];
   const sheets = google.sheets({version: 'v4', auth});
@@ -194,7 +194,7 @@ function generate_ItemsCS_file(filename, data) {
             tempObject['Name'] = item[2];
             tempObject['strk__Primary_UoM__c'] = item[6];
             tempObject['strk__Type__c'] = item[5];
-            tempObject['strk__Available_For_Receipt__c'] = item[9];
+            tempObject['strk__Available_For_Receipt__c'] = item[9] == "TRUE";
             tempObject['strk__Usage_Type__c'] = item[8];
             tempObject['strk__Tracking_Method__c'] = item[7];
             tempObject['strk__Manufacturer__c'] = item[4];
@@ -208,7 +208,6 @@ function generate_ItemsCS_file(filename, data) {
             tempObject = { attributes: {}}
         }
       });
-      var data = JSON.stringify(items_cs_data);
       fs.writeFileSync(fileLocation + filename, data);
       console.log(filename, ' is generated!');
     } catch {
@@ -258,7 +257,7 @@ function generate_Resources_file(filename, data) {
             item[6] ? tempObject['strk__Territory__c'] = item[6] : '';
             item[3] ? tempObject['strk__Type__c'] =  item[3] : '';
             item[5] ? tempObject['strk__Site__c'] =  item[5] : '';
-            item[9] ? tempObject['strk__Enable_Live_Location__c'] =  item[9] : '';
+            item[9] ? tempObject['strk__Enable_Live_Location__c'] =  item[9]  == 'TRUE' : '';
             item[10] ? tempObject['strk__Enable_Resource_For__c'] =  item[10] : '';
             item[7] ? tempObject['strk__Resource_Skill__c'] =  item[7] : '';
             item[11] ? tempObject['strk__Field_Asset__c'] =  item[11] : '';
@@ -499,14 +498,13 @@ function generate_Checklist_Template_cs_file(filename, data) {
               item[7] ? checkListObject['strk__Field_Type__c'] = item[7] : '';
               item[8] ? checkListObject['strk__Section__c'] = item[8] : '';
               item[9] ? checkListObject['strk__Subsection__c'] = item[9] : '';
-              item[10] ? checkListObject['strk__Picklist_Values__c'] = item[10] : '';
-              item[11] ? checkListObject['strk__Photo_Required__c'] = item[11] : '';
-              item[12] ? checkListObject['strk__Read_Only__c'] = item[12] : '';
+              item[10] ? checkListObject['strk__Picklist_Options__c'] = item[10] : '';
+              item[11] ? checkListObject['strk__Photo_Required__c'] = item[11] == 'TRUE' || item[11] == 'Y' : '';
+              item[12] ? checkListObject['strk__Read_Only__c'] = item[12] == "TRUE" : '';
               item[13] ? checkListObject['strk__Optional__c'] = item[13] == "TRUE" : '';
               item[14] ? checkListObject['strk__Geofencing_Required__c'] = item[14] == "TRUE" : '';
               item[15] ? checkListObject['strk__Comment_Required__c'] = item[15] : '';
-              item[16] ? checkListObject['strk__Render_Logic__c'] = item[16] : '';
-              item[17] ? checkListObject['strk__Field_Reference__c'] = item[17] : '';
+              item[16] ? checkListObject['strk__Field_Reference__c'] = item[16] : '';
               field_assets_data.records.map((checkListItem, index) => {
                 if(checkListItem.Name == item[2]) { // If Checklist exist add a record 
                   doesRecordExists = true;
