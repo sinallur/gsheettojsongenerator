@@ -78,7 +78,7 @@ function getNewToken(oAuth2Client, callback) {
 function generateData(auth) {
   var sheetsList = [
                       { name: 'Item__cs.json',
-                        range: 'Items__cs!A1:J41' 
+                        range: 'Items__cs!A1:O9' 
                       }, 
                       { 
                         name: 'Field_Asset__cs.json', 
@@ -208,6 +208,7 @@ function generate_ItemsCS_file(filename, data) {
             tempObject = { attributes: {}}
         }
       });
+      var data = JSON.stringify(items_cs_data);
       fs.writeFileSync(fileLocation + filename, data);
       console.log(filename, ' is generated!');
     } catch {
