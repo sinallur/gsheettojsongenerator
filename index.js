@@ -192,18 +192,18 @@ function generate_ItemsCS_file(filename, data) {
             tempObject.attributes['referenceId'] = item[0];
             tempObject['strk__Item_Number__c'] = item[3];
             tempObject['Name'] = item[2];
-            tempObject['strk__Primary_UoM__c'] = item[6];
-            tempObject['strk__Type__c'] = item[5];
-            tempObject['strk__Available_For_Receipt__c'] = item[9] == "TRUE";
-            tempObject['strk__Usage_Type__c'] = item[8];
-            tempObject['strk__Tracking_Method__c'] = item[7];
-            tempObject['strk__Manufacturer__c'] = item[4];
-            tempObject['strk__Asset_Name_Prefix__c'] = item[10];
-            tempObject['strk__Asset_Name_Suffix__c'] = item[11];
-            tempObject['strk__Description__c'] = item[12];
-            item[13] ? tempObject['strk__Default_Container_Quantity__c'] = item[13] : '';
-            tempObject['strk__Standard_Cost__c'] = parseInt(item[14]);
-            tempObject['strk__Category__c'] = item[15];
+            tempObject['strk__Primary_UoM__c'] = item[5];
+            tempObject['strk__Type__c'] = item[4];
+            tempObject['strk__Available_For_Receipt__c'] = item[8] == "TRUE";
+            tempObject['strk__Usage_Type__c'] = item[7];
+            tempObject['strk__Tracking_Method__c'] = item[6];
+            // tempObject['strk__Manufacturer__c'] = item[4];
+            tempObject['strk__Asset_Name_Prefix__c'] = item[9];
+            tempObject['strk__Asset_Name_Suffix__c'] = item[10];
+            tempObject['strk__Description__c'] = item[11];
+            item[12] ? tempObject['strk__Default_Container_Quantity__c'] = item[12] : '';
+            tempObject['strk__Standard_Cost__c'] = parseInt(item[13]);
+            tempObject['strk__Category__c'] = item[14];
             items_cs_data.records.push(tempObject);
             tempObject = { attributes: {}}
         }
