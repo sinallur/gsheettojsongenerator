@@ -79,10 +79,10 @@ function generateData(auth) {
   var sheetsList = [
                       { name: 'Item__cs.json',
                         range: 'Items__cs!A1:O9' 
-                      }, 
+                      },
                       { 
                         name: 'Field_Asset__cs.json', 
-                        range: 'Field_Assets_cs!A1:J88' 
+                        range: 'Field_Asset_cs!A1:J10' 
                       },
                       { 
                         name: 'Resource__cs.json', 
@@ -123,7 +123,11 @@ function generateData(auth) {
                       { 
                         name: 'Checklist_Template__cs.json', 
                         range: 'Checklist_Template_cs!A1:Q197' 
-                      }
+                      },
+                      { 
+                        name: 'Field_Asset__cs1.json', 
+                        range: 'Field_Asset_cs1!A1:J88' 
+                      },
                     ];
   const sheets = google.sheets({version: 'v4', auth});
   sheetsList.map((sheetItem) => {
@@ -139,7 +143,7 @@ function generateData(auth) {
             case sheetsList[0].range: //ItemsCS
               generate_ItemsCS_file(sheetItem.name, rows);
               break;
-            case sheetsList[1].range: //FieldAssets
+            case sheetsList[1].range: //FieldAssets_cs
               generate_FieldAssets_file(sheetItem.name, rows);
               break;
             case sheetsList[2].range: //Resources
@@ -172,6 +176,9 @@ function generateData(auth) {
             case sheetsList[11].range: //Checklist_Template_cs
               generate_Checklist_Template_cs_file(sheetItem.name, rows);
               break;
+            case sheetsList[12].range: //FieldAssets_cs1
+              generate_FieldAssets_file(sheetItem.name, rows);
+              break;
             default:
               console.log('No data found.');
           }
@@ -188,9 +195,8 @@ function generate_ItemsCS_file(filename, data) {
     try {
       data.map((item, index) => {
         if(index != 0) {
-            tempObject.attributes['type'] = item[1];
-            tempObject.attributes['referenceId'] = item[0];
-            tempObject['strk__Item_Number__c'] = item[3];
+            tempObject.attributes['type'] = item[0];
+            tempObject.attributes['referenceId'] = item[1];
             tempObject['Name'] = item[2];
             tempObject['strk__Primary_UoM__c'] = item[5];
             tempObject['strk__Type__c'] = item[4];
@@ -222,8 +228,8 @@ function generate_FieldAssets_file(filename, data) {
     try {
       data.map((item, index) => {
           if(index != 0) {
-              tempObject.attributes['type'] = item[1];
-              tempObject.attributes['referenceId'] = item[0];
+              tempObject.attributes['type'] = item[0];
+              tempObject.attributes['referenceId'] = item[1];
               tempObject['strk__Status__c'] = item[9];
               tempObject['strk__Item__c'] = item[4];
               tempObject['strk__Site__c'] = item[2];
